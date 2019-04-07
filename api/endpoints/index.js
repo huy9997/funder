@@ -1,39 +1,34 @@
 const express = require('express');
 const router  = express.Router();
-const keys = require('../config/API_KEYS');
-const moment = require('moment');
-const plaid = require('plaid');
-const bodyParser = require('body-parser');
+const keys =require('../config/API_KEYS');
+const plaid = ('plaid');
 
-const home = require('./homePage')
-const get_access_token = require('./getAccessToken');
-const getTransactions =require('./getTransactions');
+var ACCESS_TOKEN = null;
+var PUBLIC_TOKEN = null;
 
-const app = express();
+const PLAID_CLIENT_ID = keys.PLAID_CLIENT_ID;
+const PLAID_SECRET = keys.PLAID_SECRET;
+const PLAID_PUBLIC_KEY = keys.PLAID_PUBLIC_KEY ;
 
-let client = new plaid.Client(
-  keys.PLAID_CLIENT_ID,
-  keys.PLAID_SECRET,
-  keys.PLAID_PUBLIC_KEY,
-  plaid.environments[keys.PLAID_ENV],
-  {version: '2018-05-22'}
-);
-
-router.use('/home',home);
-router.use('/getTransactions', getTransactions);
-router.use('/get_access_token', get_access_token);
-
-// new code
+var plaidClient = new plaid.Client(PLAID_CLIENT_ID, PLAID_SECRET,
+PLAID_PUBLIC_KEY, plaid.environments.sandbox, {version:
+'2018-05-22'});
 
 
-// app.get('/test', function(request, response, next) {
-//   response.json('/', {
-//     PLAID_PUBLIC_KEY: keys.PLAID_PUBLIC_KEY,
-//     PLAID_ENV: PLAID_ENV,
-//     PLAID_PRODUCTS: keys.PLAID_PRODUCTS,
-//   });
-// });
-
-
+router.post('/get_access_token', function(request, response, next) {
+  PUBLIC_TOKEN = request.body.public_token;
+  client.exchangePublicToken(PUBLIC_TOKEN, function(error,tokenResponse) {
+    if (error != null) {
+      console.log('Could not exchange public_token!' + '\n' +
+error);
+      return response.json({error: msg});
+    }
+    ACCESS_TOKEN = tokenResponse.access_token;
+    ITEM_ID = tokenResponse.item_id;
+    console.log('Access Token: ' + ACCESS_TOKEN);
+    console.log('Item ID: ' + ITEM_ID);
+    response.json({'error': false});
+  });
+});
 
 module.exports = router;
