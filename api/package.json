@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "nodemon": "^1.18.10"
+    "moment": "^2.24.0",
+    "nodemon": "^1.18.10",
+    "plaid": "^3.1.1"
   }
 }
