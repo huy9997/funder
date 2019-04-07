@@ -1,0 +1,15 @@
+ const APP_PORT=8000;
+ const PLAID_CLIENT_ID='5ca9072e736cca0012cf28ac';
+ const PLAID_SECRET='79a90b97887da190e8e59c5e89655';
+ const PLAID_PUBLIC_KEY='01aa5f1efb8a455b59a1b755140a31';
+ const PLAID_PRODUCTS='transactions';
+ const PLAID_ENV='sandbox';
+
+module.exports = {
+	APP_PORT,
+	PLAID_CLIENT_ID,
+	PLAID_SECRET,
+	PLAID_PUBLIC_KEY,
+	PLAID_PRODUCTS,
+	PLAID_ENV
+}
